@@ -6,7 +6,7 @@ app = Flask(__name__, template_folder='templates')
 author = pickle.load(open('author.pkl', 'rb'))
 sim_scores = pickle.load(open('similarity_scores.pkl', 'rb'))
 popular = pickle.load(open('popular.pkl', 'rb'))
-movies = pickle.load(open('pt.pkl', 'rb'))
+books = pickle.load(open('pt.pkl', 'rb'))
 data = pickle.load(open('data.pkl', 'rb'))
 
 
@@ -20,22 +20,22 @@ def home():
                            book_numrat=list(popular['num_rating'].values))
 
 
-@app.route('/rec_mov')
-def recommend_movies_ui():
+@app.route('/rec_book')
+def recommend_book_ui():
     return render_template('recommend.html')
 
 
-@app.route('/Movies', methods=['POST'])
-def movie():
+@app.route('/Books', methods=['POST'])
+def book():
     name = request.form.get('book_name')
     d = []
     if name != '':
-        index = np.where(movies.index == name)[0][0]
+        index = np.where(books.index == name)[0][0]
         similar = sorted(list(enumerate(sim_scores[index])), key=lambda x: x[1], reverse=True)[1:6]
 
         for i in similar:
             item = []
-            temp_df = data[data['Book-Title'] == movies.index[i[0]]]
+            temp_df = data[data['Book-Title'] == books.index[i[0]]]
             item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Title'].values))
             item.extend(list(temp_df.drop_duplicates('Book-Title')['Book-Author'].values))
             item.extend(list(temp_df.drop_duplicates('Book-Title')['Image-URL-M'].values))
@@ -50,7 +50,7 @@ def recommend_author_ui():
 
 
 @app.route('/Author', methods=['POST'])
-def au_mov():
+def au_book():
     auth = request.form.get('book_auth')
     a = []
     if auth != '' and (auth in author['Book-Author'].values):
