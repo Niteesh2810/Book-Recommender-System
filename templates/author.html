@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Recommender!!</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar sticky-top navbar-light" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Book Recommender</span>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item" style="margin-right: 60px;">
+                <a  class="nav-link" href="/"><b>Top 50</b></a>
+            </li>
+            <li class="nav-item dropdown" style="margin-right: 60px;">
+                <a aria-current="page" aria-expanded="false" class="nav-link active dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                   role="button"><b>Recommendation</b></a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/rec_mov">Movies</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="/rec_auth">Author</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<form method="post" action="\Author" class="d-flex" style="width: 65%; margin-right: 30px; margin-top: 90px; margin-left: 275px; ">
+    <input aria-label="Search" class="form-control me-2" name="book_auth" placeholder="Enter author name..."
+           type="search" style="height: 60px;">
+    <button class="btn btn-lg btn-outline-info" type="submit" style="margin-left:20px;">Search</button>
+</form>
+
+
+{% if data %}
+<h1 style="font-size: 70px; text-align: center; font-family: 'Oswald', sans-serif; margin-top: 40px;">RECOMMENDED
+    BOOKS BASED ON AUTHOR</h1>
+{% endif %}
+
+
+<div class="container">
+
+    <div class="row row-cols-5 row-cols-lg-5 g-2 g-lg-3">
+
+        {% if data %}
+
+        {% for i in data %}
+        <div class="col p-5">
+            <img class="card-img-top" width="100px" height="200px" src="{{ i[2] }}" style="margin-bottom: 17px;" >
+            <h4 class="text" style="text-align: justify; text-justify: inter-word;">{{ i[0] }}</h4>
+            <h6 class="text" style="color: #6c757d; margin-top: 13px; margin-bottom: 13px;">{{ i[1] }}</h6>
+            <h6 class="text" style="margin-top: 13px; margin-bottom: 13px;">Rating - {{ i[3]|round(2) }}</h6>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+
+<script crossorigin="anonymous"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
